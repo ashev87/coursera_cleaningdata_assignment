@@ -37,6 +37,7 @@ train_df <- cbind(x_train, subject_train, y_train)
 ### combining the test and train datasets
 
 df <- rbind(test_df, train_df)
+jhjh
 
 summarize(df)
 
