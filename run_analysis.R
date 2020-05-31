@@ -1,3 +1,6 @@
+### loading the libraries
+library(dplyr)
+library(plyr)
 ### reading the test data
 
 subject_test <- read.table("./data/test/subject_test.txt")
@@ -37,8 +40,27 @@ train_df <- cbind(x_train, subject_train, y_train)
 ### combining the test and train datasets
 
 df <- rbind(test_df, train_df)
-jhjh
 
-summarize(df)
+### looking at column names
+
+colnames(df)
+### 2.
+### creating a regex to extract columns only with mean and std, and the subject id and activity columns
+
+pattern <- "[Mm]ean|std|subject_id|activity"
+grep(pattern, colnames(df))
+
+### saving only the columns containing the mean and std values in a new data frame
+
+df_clean <- df[, grep(pattern, colnames(df))]
+
+### 3. Use descriptive activity names to name the activities in the data set
+### reading the activity labels
+activity_labels <- read.table("./data/activity_labels.txt")
+### substituting numbers with descriptive names
+df_clean$activity <- as.character(df_clean$activity)
+list <- c("1"="WALKING","2"="WALKING_UPSTAIRS", "3"="WALKING_DOWNSTAIRS", "4"="SITTING", "5"="STANDING", "6"="LAYING")
+df_clean$activity <- as.factor(revalue(df_clean$activity, list))
+
 
 
