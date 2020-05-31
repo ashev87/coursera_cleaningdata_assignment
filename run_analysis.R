@@ -1,6 +1,6 @@
 ### loading the libraries
-library(dplyr)
-library(plyr)
+library(plyr); library(dplyr)
+
 ### reading the test data
 
 subject_test <- read.table("./data/test/subject_test.txt")
@@ -23,6 +23,7 @@ column_labels <- read.table("./data/features.txt")
 
 column_names_v <- column_labels$V2
 
+### 4. put appropriate labels to the columns
 ### setting the names of the columns to the datasets
 
 colnames(x_train) <- column_names_v
@@ -41,9 +42,6 @@ train_df <- cbind(x_train, subject_train, y_train)
 
 df <- rbind(test_df, train_df)
 
-### looking at column names
-
-colnames(df)
 ### 2.
 ### creating a regex to extract columns only with mean and std, and the subject id and activity columns
 
@@ -62,5 +60,7 @@ df_clean$activity <- as.character(df_clean$activity)
 list <- c("1"="WALKING","2"="WALKING_UPSTAIRS", "3"="WALKING_DOWNSTAIRS", "4"="SITTING", "5"="STANDING", "6"="LAYING")
 df_clean$activity <- as.factor(revalue(df_clean$activity, list))
 
+### 5. creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-
+df_grouped <- group_by(df_clean, subject_id, activity)
+df_summary <- summarise_all(df_grouped, mean)
