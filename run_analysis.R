@@ -64,3 +64,6 @@ df_clean$activity <- as.factor(revalue(df_clean$activity, list))
 
 df_grouped <- group_by(df_clean, subject_id, activity)
 df_summary <- summarise_all(df_grouped, mean)
+
+#export tidydata set
+write.table(df_summary , "./tidydata.txt" ,sep = "\t" ,row.names = FALSE)
